@@ -17,10 +17,11 @@ describe("Practicing Cypress", () => {
     })
 
     it("Verify search functionality on the website", () => {
+        const word = "cypress";
         homePage.rejectCookies(); //I can't reject cookies - intermitent issue: is being covered by another element
-        homePage.searchSomething("cypress");
+        homePage.searchSomething(word);
         cy.location("pathname").should("not.be", "/");
         searchPage.checkResults();
-        searchPage.validateResultItems("cypress");
+        searchPage.validateResultItems(word);
     });
 });

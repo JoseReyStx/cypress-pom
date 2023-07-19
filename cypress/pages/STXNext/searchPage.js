@@ -17,13 +17,20 @@ class searchPage {
     }
 
     validateResultItems(text) {
+        let regex = new RegExp(text, "i");
         this.getResultsList().each((item) => {
-            // here is an error. - item.find(...).should is not a function
-            item.find("a").should("have.attr", "href", "https://www.stxnext.com/")
-                .and((element) => {
-                    element.find("h3").should("have.class", "hs-search-results__title");
-                });
-            item.find("p").should("have.string", text)
+            // cy.wrap(item).find("a").should("have.attr", "href", "https://www.stxnext.com/")
+            cy.wrap(item)
+                .find("a")
+                .invoke("attr", "href")
+                .should("match", /^https:\/\/www.stxnext.com\//i);
+            cy.wrap(item)
+                .find("h3")
+                .should("have.class", "hs-search-results__title");
+            cy.wrap(item)
+                .find("p")
+                .invoke("text")
+                .should("match", regex);
         })
     }
 
